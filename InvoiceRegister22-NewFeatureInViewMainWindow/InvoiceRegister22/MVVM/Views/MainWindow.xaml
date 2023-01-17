@@ -1,0 +1,51 @@
+﻿<Window x:Class="InvoiceRegister22.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InvoiceRegister22"
+        xmlns:uc="clr-namespace:InvoiceRegister22.UserControls"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="MainWindow" 
+        Height="1440" Width="2560"
+        WindowStyle="None"
+        Background="White"
+        WindowState="Maximized"
+        x:Name="Window">
+    
+    <Window.Resources>
+        
+    </Window.Resources>
+
+    <Grid>
+
+        <Grid.Background>
+            <ImageBrush x:Name="AppBackground"
+                        ImageSource="/Image/Background/BackgroundOffice.jpg" 
+                        Opacity="0.1"/>
+        </Grid.Background>
+
+        <uc:DrawerMenu x:Name="menu"
+                       IconName="menu"
+                       MenuIconColor = "#FFFFFFFF"
+                       MenuIconColorForMouseOver = "#FF70C32E"
+                       MenuIconColorForIsChecked ="#FF0F5B37"
+                       ButtonsColor = "#FFFFFFFF"
+                       ButtonsColorIsChecked = "#FF70C32E"
+                       ButtonsColorMouseOver = "#FF0F5B37"
+                       ShadowColor="#FF000000"
+                       TextMenu="M E N U"
+                       TextMenuFontSize ="30" 
+                       MenuIconChecked="DrawerMenu_MenuIconChecked" 
+                       MenuIconUnchecked="DrawerMenu_MenuIconUnchecked"
+                       />
+        
+        <Grid x:Name="GridView"
+              Background="Transparent"
+              Margin="150,100,100,0">
+
+        </Grid>
+
+    </Grid>
+</Window>

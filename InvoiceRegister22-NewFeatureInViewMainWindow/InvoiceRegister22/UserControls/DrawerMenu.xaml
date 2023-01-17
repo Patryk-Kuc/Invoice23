@@ -1,0 +1,306 @@
+﻿<UserControl x:Class="InvoiceRegister22.UserControls.DrawerMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:InvoiceRegister22.UserControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="1450" d:DesignWidth="300"
+             
+             Name="Menu">
+
+    <UserControl.Resources>
+
+        <Style x:Key="TextBlockMenuStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="Foreground" Value="#FF2E3349"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="StyleMenuToogleButton" TargetType="{x:Type ToggleButton}">
+
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="20,0,0,0"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="BorderThickness" Value="0"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}" >
+                        <Grid Background="Transparent">
+                            <materialDesign:PackIcon x:Name="MenuIcon"
+                                                     Kind="{Binding Path=IconName, ElementName=Menu}" 
+                                                     Width="50"
+                                                     Height="50"
+                                                     Margin="0,0,0,0"
+                                                     Foreground="{Binding Path=MenuIconColor, ElementName=Menu}"
+                                                     VerticalAlignment="Stretch"
+                                                     HorizontalAlignment="Stretch"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True" >
+
+                                <Setter Property="Foreground"
+                                        TargetName="MenuIcon"
+                                        Value="{Binding Path=MenuIconColorForMouseOver, ElementName=Menu}"/>
+
+                            </Trigger>
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+                                <Setter Property="Foreground"
+                                        TargetName="MenuIcon"
+                                        Value="{Binding Path=MenuIconColorForIsChecked, ElementName=Menu}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ToolTipStyle" TargetType="{x:Type ToolTip}">
+            <Setter Property="Placement" Value="Right"/>
+            <Setter Property="Height" Value="90"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="Background" Value="#1C2B36"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="PlacementRectangle" Value="75,-8,0,0"/>
+            <Setter Property="HorizontalOffset" Value="25"/>
+            <Setter Property="VerticalOffset"  Value="10"/>
+            <Setter Property="HasDropShadow" Value="True"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        
+        <Style x:Key="MenuButtonStyle" TargetType="local:MenuButton">
+            <Setter Property="ButtonIconColor" Value="{Binding Path=ButtonsColor, ElementName=Menu}"/>
+            <Setter Property="ButtonIconColorMouseOver" Value="{Binding Path=ButtonsColorIsChecked, ElementName=Menu}"/>
+            <Setter Property="ButtonIconColorIsChecked" Value="{Binding Path=ButtonsColorMouseOver, ElementName=Menu}"/>
+        </Style>
+        
+    </UserControl.Resources>
+    
+    <Grid>
+
+        <Grid x:Name="MenuGrid"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Stretch"
+              Width="100">
+
+            <Grid.Background>
+                <LinearGradientBrush x:Name="BackgrountMenu"
+                                     StartPoint="0,0.2" EndPoint="1.5,1.2">
+                    <GradientStop x:Name="ColorTop" Color="#1c2b36" Offset="0.0"/>
+                    <GradientStop x:Name="ColorDown" Color="#EAEAEA" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.Effect>
+                <DropShadowEffect x:Name="MenuGridShadow"
+                                  ShadowDepth="5"
+                                  Direction="330"
+                                  Color="{Binding Path=ShadowColor, ElementName=Menu}"
+                                  Opacity="0.6"
+                                  BlurRadius="5"/>   
+            </Grid.Effect>
+            <StackPanel>
+
+                <Grid Height="100">
+                    <TextBlock  Text ="{Binding Path=TextMenu, ElementName=Menu}"
+                                FontSize="{Binding Path=TextMenuFontSize, ElementName=Menu}"
+                                Margin="100,0,0,0"
+                                Style="{StaticResource TextBlockMenuStyle}"/>
+
+                    <ToggleButton x:Name="ToggleButtonMenu" 
+                                  HorizontalAlignment="Left" 
+                                  Style="{StaticResource StyleMenuToogleButton}" 
+                                  Checked="ToggleButtonMenu_Checked" 
+                                  Unchecked="ToggleButtonMenu_Unchecked"
+                                  IsChecked="{Binding Path=MenuIconIsChecked, ElementName=Menu}">
+
+
+                        <ToggleButton.Triggers>
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="ShowStackPanel">
+                                        <DoubleAnimation Storyboard.TargetName="MenuGrid"
+                                                         Storyboard.TargetProperty="Width"
+                                                         BeginTime="0:0:0"
+                                                         From="100" To="300"
+                                                         Duration="0:0:0.6"/>
+
+                                        <ColorAnimation Storyboard.TargetName="ColorTop"
+                                                        Storyboard.TargetProperty="Color"
+                                                        From="#1c2b36" To="#EAEAEA" 
+                                                        BeginTime="0:0:0" Duration="0:0:0.6"/>
+
+                                        <ColorAnimation Storyboard.TargetName="ColorDown"
+                                                        Storyboard.TargetProperty="Color"
+                                                        From="#EAEAEA" To="#1c2b36" 
+                                                        BeginTime="0:0:0" Duration="0:0:0.6"/>
+
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="HideStackPanel">
+                                        <DoubleAnimation Storyboard.TargetName="MenuGrid"
+                                                         Storyboard.TargetProperty="Width"
+                                                         BeginTime="0:0:0"
+                                                         From="300" To="100"
+                                                         Duration="0:0:0.6"/>
+
+                                        <ColorAnimation Storyboard.TargetName="ColorTop"
+                                                        Storyboard.TargetProperty="Color"
+                                                        From="#EAEAEA" To="#1c2b36" 
+                                                        BeginTime="0:0:0" Duration="0:0:0.6"/>
+
+                                        <ColorAnimation Storyboard.TargetName="ColorDown"
+                                                        Storyboard.TargetProperty="Color"
+                                                        From="#1c2b36" To="#EAEAEA" 
+                                                        BeginTime="0:0:0" Duration="0:0:0.6"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ToggleButton.Triggers>
+                    </ToggleButton>
+                </Grid>
+
+                <ListView x:Name="ListMenu"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              Background="Transparent"
+                              BorderBrush="Transparent">
+                    
+                    <ListViewItem MouseEnter="ListViewItem_MouseEnter">
+
+                            <local:MenuButton x:Name="ButtonNewInvoice"
+                                              IconName="ReceiptTextPlus"
+                                              Style="{StaticResource MenuButtonStyle}"
+                                              TextButton="New invoice"  
+                                              ButtonClick="Button_ButtonClick" 
+                                              ButtonCommand="{Binding Path=Command, ElementName=Menu}"
+                                              ButtonCommandParameter="0"/>
+                            <ListBoxItem.ToolTip>
+                            <ToolTip x:Name="ToolTipNewInvoice"
+                                     Content="New invoice"
+                                     Style="{StaticResource ToolTipStyle}"/>
+                        </ListBoxItem.ToolTip>
+                    </ListViewItem>
+
+                    <ListViewItem MouseEnter="ListViewItem_MouseEnter">
+                        <local:MenuButton x:Name="ButtonListInvoice"
+                                          IconName="FormatListNumbered"
+                                          Style="{StaticResource MenuButtonStyle}"
+                                          TextButton="List of invoice"
+                                          ButtonClick="Button_ButtonClick"
+                                          ButtonCommand="{Binding Path=Command, ElementName=Menu}"
+                                          ButtonCommandParameter="1"/>
+                        <ListBoxItem.ToolTip>
+                            <ToolTip x:Name="ToolTipListInvoice"
+                                     Content="List of invoice"
+                                     Style="{StaticResource ToolTipStyle}"/>
+                        </ListBoxItem.ToolTip>
+                    </ListViewItem>
+
+                    <ListViewItem MouseEnter="ListViewItem_MouseEnter">
+                        <local:MenuButton x:Name="ButtonMyCompanies"
+                                          IconName="Domain"
+                                          Style="{StaticResource MenuButtonStyle}"
+                                          TextButton="My companies"
+                                          ButtonClick="Button_ButtonClick"
+                                          ButtonCommand="{Binding Path=Command, ElementName=Menu}"
+                                          ButtonCommandParameter="2"/>
+                        <ListBoxItem.ToolTip>
+                            <ToolTip x:Name="ToolTipMyCompany"
+                                     Content="My Companies"
+                                     Style="{StaticResource ToolTipStyle}"/>
+                        </ListBoxItem.ToolTip>
+                    </ListViewItem>
+
+                    <ListViewItem MouseEnter="ListViewItem_MouseEnter">
+                        <local:MenuButton x:Name="ButtonContractors"
+                                          IconName="HandshakeOutline"
+                                          Style="{StaticResource MenuButtonStyle}"
+                                          TextButton="Contractors"
+                                          ButtonClick="Button_ButtonClick" Tag="1"
+                                          ButtonCommand="{Binding Path=Command, ElementName=Menu}"
+                                          ButtonCommandParameter = "3"/>
+                        <ListBoxItem.ToolTip>
+                            <ToolTip x:Name="ToolTipMyContractors"
+                                     Content="Contractors"
+                                     Style="{StaticResource ToolTipStyle}"/>
+                        </ListBoxItem.ToolTip>
+                    </ListViewItem>
+
+                    <ListViewItem MouseEnter="ListViewItem_MouseEnter">
+                        <local:MenuButton x:Name="ButtonWarehouse"
+                                          IconName="HomeVariant"
+                                          Style="{StaticResource MenuButtonStyle}"
+                                          TextButton="Warehouse"
+                                          ButtonClick="Button_ButtonClick"
+                                          ButtonCommand="{Binding Path=Command, ElementName=Menu}"
+                                          ButtonCommandParameter="4"/>
+                        <ListBoxItem.ToolTip>
+                            <ToolTip x:Name="ToolTipWarehouse"
+                                     Content="Warehouse"
+                                     Style="{StaticResource ToolTipStyle}"/>
+                        </ListBoxItem.ToolTip>
+                    </ListViewItem>
+
+                    <ListViewItem MouseEnter="ListViewItem_MouseEnter">
+                        <local:MenuButton x:Name="ButtonContacts"
+                                          IconName="Contacts"
+                                          Style="{StaticResource MenuButtonStyle}"
+                                          TextButton="Contacts"
+                                          ButtonClick="Button_ButtonClick"
+                                          ButtonCommand="{Binding Path=Command, ElementName=Menu}"
+                                          ButtonCommandParameter="5"/>
+                        <ListBoxItem.ToolTip>
+                            <ToolTip x:Name="ToolTipContacts"
+                                     Content="Contacts"
+                                     Style="{StaticResource ToolTipStyle}"/>
+                        </ListBoxItem.ToolTip>
+                    </ListViewItem>
+                    
+                    <ListViewItem>
+                        <local:MenuButton x:Name="ButtonSettings"
+                                          IconName="Tune"
+                                          Style="{StaticResource MenuButtonStyle}"
+                                          TextButton="Settings"
+                                          ButtonClick="Button_ButtonClick"
+                                          ButtonCommand="{Binding Path=Command, ElementName=Menu}"
+                                          ButtonCommandParameter="6"/>
+                        <ListBoxItem.ToolTip>
+                            <ToolTip x:Name="ToolTipSettings"
+                                     Content="Settings"
+                                     Style="{StaticResource ToolTipStyle}"/>
+                        </ListBoxItem.ToolTip>
+                    </ListViewItem>
+
+                    <ListViewItem MouseEnter="ListViewItem_MouseEnter" >
+                        <local:MenuButton x:Name="ButtonAboutProgram"
+                                          IconName="Information"
+                                          Style="{StaticResource MenuButtonStyle}"
+                                          TextButton="About program"
+                                          ButtonClick="Button_ButtonClick"
+                                          ButtonCommand="{Binding Path=Command, ElementName=Menu}"
+                                          ButtonCommandParameter="7"/>
+                        <ListBoxItem.ToolTip>
+                            <ToolTip x:Name="ToolTipAbout"
+                                     Content="About program"
+                                     Style="{StaticResource ToolTipStyle}"/>
+                        </ListBoxItem.ToolTip>
+                    </ListViewItem>
+                </ListView>
+            </StackPanel>
+            
+        </Grid>
+        
+    </Grid>
+</UserControl>
